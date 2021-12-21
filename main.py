@@ -1,14 +1,12 @@
 import os #To clean the screen
-from random import randint
+from random import randint, uniform
 
 DATA = []
 
-def print_on_screen(word):
-    underscore = '_'
-    underscore_list = [underscore for i in range(1, len(word))]
-    
+def print_on_screen(list_word):
+    print('********* Juego del ahorcado *********\n')
     print('|', end=' ')
-    for i in underscore_list:
+    for i in list_word:
         print(i, end=' ')
     print('|')
 
@@ -50,9 +48,27 @@ def clear():
 
 
 def run():
+    clear()
     word = normalize(read_data())
-    print(f'{word}\n')
-    print_on_screen(word)
+    list_word = ['_' for i in range(1, len(word))]
+
+
+    while True:
+        print_on_screen(list_word)
+        try:
+            letter = input("\n\nIngresa una letra: ")
+        except ValueError:
+            print('¡Error! solo ingresa letras')
+        
+        clear()
+
+        for l in range(len(word)):
+            if word[l] == letter:
+                list_word[l] = letter
+
+        if letter == 'q':
+            print('Ganaste ')
+            break
 
 
 if __name__=='__main__':
