@@ -3,10 +3,15 @@ from random import choice
 
 DATA = []
 
-def print_on_screen(list_word):
+def print_on_screen(list_word_underscores):
+    """This function print on screen
+    Args:
+        list_word_underscores (list): It contains as underscores as len(word)
+        and it changes every time a letter is hit.
+    """
     print('********* Juego del ahorcado *********\n')
     print('|', end=' ')
-    for i in list_word:
+    for i in list_word_underscores:
         print(i, end=' ')
     print('|')
 
@@ -53,13 +58,20 @@ def clear():
 def run():
     clear()
     word = normalize(read_data())
-    list_word = ['_' for i in range(len(word))]
-    #list_word = '_' * len(word)
+    list_word_underscores = ['_' for i in range(len(word))]
+    dict_letter_index = {}
 
-    #print(word)
+    # I create a dict with the letters of the word as keys, and the values are index lists 
+    # Example: word='casa' / dict = {'c':[0], 'a':[1,3], 's':[2]}
+    for i, letter in enumerate(word):
+        if not dict_letter_index.get(letter):
+            dict_letter_index[letter] = []
+        dict_letter_index[letter].append(i)
+
     while True:
         clear()
-        print_on_screen(list_word)
+        
+        print_on_screen(list_word_underscores)
         try:
             letter = input("\n\nIngresa una letra: ")
             letter = letter.upper()
@@ -67,13 +79,12 @@ def run():
             print('¡Error! solo ingresa letras')
 
         if letter in word:
-            for i in range(len(word)):
-                if word[i] == letter:
-                    list_word[i] = letter
+            for i in dict_letter_index[letter]:
+                list_word_underscores[i] = letter
 
-        if ''.join(list_word) == word:
+        if ''.join(list_word_underscores) == word:
             clear()
-            print('Ganaste ')
+            print(f'¡Ganaste! La palabra era: {word}')
             break
 
 
