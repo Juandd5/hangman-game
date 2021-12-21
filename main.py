@@ -3,6 +3,14 @@ from random import choice
 
 DATA = []
 
+def is_str(letter):
+    try:
+        int(letter)
+        return False
+    except ValueError:
+        return True
+
+
 def print_on_screen(list_word_underscores):
     """This function print on screen
     Args:
@@ -70,11 +78,14 @@ def run():
         dict_letter_index[letter].append(i)
 
     while True:
-        clear()
-        print(lifes)
         print_on_screen(list_word_underscores)
-        letter = input("\n\nIngresa una letra: ")
+        print(f'\nVidas restantes: {lifes}')
+        letter = input("\nIngresa una letra: ")
         letter = letter.upper()
+        clear()
+        if not is_str(letter):
+            print('¡Error! Recuerda que solo debes ingresar letras\n')
+            continue
 
         if letter in word:
             for i in dict_letter_index[letter]:
