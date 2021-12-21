@@ -60,6 +60,7 @@ def run():
     word = normalize(read_data())
     list_word_underscores = ['_' for i in range(len(word))]
     dict_letter_index = {}
+    lifes = 6
 
     # I create a dict with the letters of the word as keys, and the values are index lists 
     # Example: word='casa' / dict = {'c':[0], 'a':[1,3], 's':[2]}
@@ -70,21 +71,25 @@ def run():
 
     while True:
         clear()
-        
+        print(lifes)
         print_on_screen(list_word_underscores)
-        try:
-            letter = input("\n\nIngresa una letra: ")
-            letter = letter.upper()
-        except ValueError:
-            print('¡Error! solo ingresa letras')
+        letter = input("\n\nIngresa una letra: ")
+        letter = letter.upper()
 
         if letter in word:
             for i in dict_letter_index[letter]:
                 list_word_underscores[i] = letter
+        else:
+            lifes -= 1
 
         if ''.join(list_word_underscores) == word:
             clear()
             print(f'¡Ganaste! La palabra era: {word}')
+            break
+        
+        if lifes == 0:
+            clear()
+            print("¡Perdiste! Se te acabaron las vidas")
             break
 
 
