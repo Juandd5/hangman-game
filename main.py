@@ -1,5 +1,5 @@
 import os #To clean the screen
-from random import randint, uniform
+from random import choice
 
 DATA = []
 
@@ -17,16 +17,18 @@ def normalize(s):
         s (function): This parameter is a function that get a random word from 'read_data()'
     Returns: 
         [string]: the word in lowercase and without accenst
-    """    
+    """   
+    #print(s, len(s)) 
     replacements = (
-        ("á", "a"),
-        ("é", "e"),
-        ("í", "i"),
-        ("ó", "o"),
-        ("ú", "u"),
+        ("Á", "A"),
+        ("É", "E"),
+        ("Í", "I"),
+        ("Ó", "O"),
+        ("Ú", "U"),
     )
     for a, b in replacements:
-        s = s.replace(a, b).replace(a.upper(), b.upper())
+        s = s.upper().replace(a, b)#.replace(a.upper(), b.upper())
+
     return s
 
 
@@ -35,10 +37,11 @@ def read_data():
     Returns: 
         string: a random word
     """
-    with open('./data.txt', 'r', encoding='utf-8') as l:
-        DATA = [line for line in l]
-    ramdon_word = randint(0, len(DATA))
-    return DATA[ramdon_word]
+    with open('./data.txt', 'r', encoding='utf-8') as f:
+        for line in f:
+            DATA.append(line.strip())
+    
+    return choice(DATA)
 
 
 def clear():
@@ -50,23 +53,26 @@ def clear():
 def run():
     clear()
     word = normalize(read_data())
-    list_word = ['_' for i in range(1, len(word))]
+    list_word = ['_' for i in range(len(word))]
+    #list_word = '_' * len(word)
 
-
+    #print(word)
     while True:
+        clear()
         print_on_screen(list_word)
         try:
             letter = input("\n\nIngresa una letra: ")
+            letter = letter.upper()
         except ValueError:
             print('¡Error! solo ingresa letras')
-        
-        clear()
 
-        for l in range(len(word)):
-            if word[l] == letter:
-                list_word[l] = letter
+        if letter in word:
+            for i in range(len(word)):
+                if word[i] == letter:
+                    list_word[i] = letter
 
-        if letter == 'q':
+        if ''.join(list_word) == word:
+            clear()
             print('Ganaste ')
             break
 
