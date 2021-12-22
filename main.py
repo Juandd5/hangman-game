@@ -4,8 +4,10 @@ from random import choice
 DATA = []
 
 def is_str(letter):
+    #Validar cuando el usuario ingrese: símbolos, 'd5', enter 
     try:
         int(letter)
+        print(type(letter))
         return False
     except ValueError:
         return True
@@ -83,6 +85,7 @@ def run():
         letter = input("\nIngresa una letra: ")
         letter = letter.upper()
         clear()
+
         if not is_str(letter):
             print('¡Error! Recuerda que solo debes ingresar letras\n')
             continue
